@@ -1,4 +1,4 @@
-TARGET = tutorial
+TARGET = background
 
 SOURCE = \
 	main.asm
