@@ -21,6 +21,21 @@ vblankwait1:
   bit $2002
   bpl vblankwait1
 
+clrmem:
+  lda #$00
+  sta $0000, x
+  sta $0100, x
+  sta $0200, x
+  sta $0300, x
+  sta $0400, x
+  sta $0500, x
+  sta $0600, x
+  sta $0700, x
+  lda #$fe
+  sta $0300, x
+  inx
+  bne clrmem
+
 ; Wait for second vblank, PPU is ready after this
 vblankwait2:
   bit $2002
