@@ -4,7 +4,7 @@ SOURCE = \
 	main.asm
 
 INCLUDE = \
-	header.asm
+	header.inc
 
 DATA = \
 

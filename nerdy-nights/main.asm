@@ -1,4 +1,4 @@
-.include "header.asm"
+.include "header.inc"
 
 .segment "STARTUP"
 
