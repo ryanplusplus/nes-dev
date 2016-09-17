@@ -1,4 +1,4 @@
-TARGET = background
+TARGET = sprites
 
 SOURCE = \
 	main.asm
