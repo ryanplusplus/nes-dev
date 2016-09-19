@@ -168,10 +168,10 @@ right:
   ldy #0
   ldx #0
 @move:
-  lda $0203,X       ; Load sprite X position
+  lda $0203, x      ; Load sprite X position
   clc               ; make sure the carry flag is clear
   adc #SPEED        ; A = A + 1
-  sta $0203,X       ; Save sprite X position
+  sta $0203, x      ; Save sprite X position
   inx
   inx
   inx
