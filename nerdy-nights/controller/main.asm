@@ -5,6 +5,32 @@
 .segment "CODE"
 
 .define SPEED $02
+.define NSPEED $fe
+
+.define KEYREG $4016
+
+.macro move_sprite addr, offset
+  ldy #0
+  ldx #0
+  @move:
+  lda addr,X          ; Load sprite Y position
+  clc                 ; make sure the carry flag is clear
+  adc #offset
+  sta addr,X          ; Save sprite Y position
+  inx
+  inx
+  inx
+  inx
+  iny
+  cpy #4
+  bcc @move
+.endmacro
+
+.macro brnkey dst
+  lda KEYREG
+  and #%00000001    ; Only look at bit 0
+  beq dst
+.endmacro
 
 reset:
   sei               ; Disable IRQs
@@ -84,102 +110,34 @@ nmi:
 
 latch_controllers:
   lda #$01
-  sta $4016
+  sta KEYREG
   lda #$00
-  sta $4016         ; Latch data for both controllers
+  sta KEYREG        ; Latch data for both controllers
 
   ; A, B, Select, Start, Up, Down, Left, Right
-  lda $4016         ; A
-  lda $4016         ; B
-  lda $4016         ; Select
-  lda $4016         ; Start
+  lda KEYREG        ; A
+  lda KEYREG        ; B
+  lda KEYREG        ; Select
+  lda KEYREG        ; Start
 
 up:
-  lda $4016         ; Player 1 - A
-  and #%00000001    ; Only look at bit 0
-  beq up_done     ; Branch to up_done if button is NOT pressed (0)
-
-  ldy #0
-  ldx #0
-@move:
-  lda $0200,X       ; Load sprite Y position
-  sec               ; make sure the carry flag is set
-  sbc #SPEED        ; A = A - 1
-  sta $0200,X       ; Save sprite Y position
-  inx
-  inx
-  inx
-  inx
-  iny
-  cpy #4
-  bcc @move
-
+  brnkey up_done
+  move_sprite $0200, NSPEED
 up_done:
 
 down:
-  lda $4016         ; Player 1 - B
-  and #%00000001    ; Only look at bit 0
-  beq down_done    ; Branch to down_done if button is NOT pressed (0)
-
-  ldy #0
-  ldx #0
-@move:
-  lda $0200,X       ; Load sprite X position
-  clc               ; make sure the carry flag is clear
-  adc #SPEED        ; A = A + 1
-  sta $0200,X       ; Save sprite X position
-  inx
-  inx
-  inx
-  inx
-  iny
-  cpy #4
-  bcc @move
-
+  brnkey down_done
+  move_sprite $0200, SPEED
 down_done:
 
 left:
-  lda $4016         ; Player 1 - A
-  and #%00000001    ; Only look at bit 0
-  beq left_done     ; Branch to left_done if button is NOT pressed (0)
-
-  ldy #0
-  ldx #0
-@move:
-  lda $0203,X       ; Load sprite X position
-  sec               ; make sure the carry flag is set
-  sbc #SPEED        ; A = A - 1
-  sta $0203,X       ; Save sprite X position
-  inx
-  inx
-  inx
-  inx
-  iny
-  cpy #4
-  bcc @move
-
+  brnkey left_done
+  move_sprite $0203, NSPEED
 left_done:
 
 right:
-  lda $4016         ; Player 1 - B
-  and #%00000001    ; Only look at bit 0
-  beq right_done    ; Branch to right_done if button is NOT pressed (0)
-
-  ldy #0
-  ldx #0
-@move:
-  lda $0203, x      ; Load sprite X position
-  clc               ; make sure the carry flag is clear
-  adc #SPEED        ; A = A + 1
-  sta $0203, x      ; Save sprite X position
-  inx
-  inx
-  inx
-  inx
-  iny
-  cpy #4
-  bcc @move
-
+  brnkey right_done
+  move_sprite $0203, SPEED
 right_done:
 
   rti
