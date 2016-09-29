@@ -7,5 +7,6 @@ INCLUDE = \
 	header.inc
 
 DATA = \
+	sprites.chr
 
 include ../common.mk
