@@ -1,3 +1,6 @@
 [submodule "nerdy-nights-nesasm/nesasm"]
 	path = nerdy-nights-nesasm/nesasm
 	url = https://github.com/camsaul/nesasm.git
+[submodule "nerdy-nights/cc65"]
+	path = nerdy-nights/cc65
+	url = https://github.com/cc65/cc65.git

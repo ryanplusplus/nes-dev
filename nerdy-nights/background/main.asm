@@ -231,7 +231,6 @@ sprites:
 
 .segment "VECTORS"
 
-  .word 0, 0, 0     ; Unused, but needed to advance PC to $fffa.
   .word nmi
   .word reset
   .word 0           ; IRQ, unused
