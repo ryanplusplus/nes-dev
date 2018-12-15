@@ -1,0 +1,3 @@
+[submodule "nerdy-nights-nesasm/nesasm"]
+	path = nerdy-nights-nesasm/nesasm
+	url = https://github.com/camsaul/nesasm.git
